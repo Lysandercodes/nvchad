@@ -35,6 +35,9 @@ return {
         lua = { 'stylua' },
         go = { 'gofmt' },
         markdown = { { 'prettierd', 'prettier', stop_after_first = true } },
+        html = { 'prettier' },
+        javascript = { { 'prettierd', 'prettier', stop_after_first = true } },
+        typescript = { { 'prettierd', 'prettier', stop_after_first = true } },
       },
     },
   },
@@ -76,10 +79,12 @@ return {
           mason_tool_installer.setup {
             ensure_installed = {
               'gopls',
+              'html-lsp',
               'shellcheck',
               'delve',
               'bash-debug-adapter',
               'stylua',
+              'tsserver', -- ✅ for JavaScript and TypeScript
             },
           }
         end,
@@ -246,6 +251,7 @@ return {
         -- clangd = {},
         gopls = {},
         ['bash-language-server'] = {},
+        ['html-lsp'] = {},
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -257,6 +263,7 @@ return {
         -- ts_ls = {},
         --
 
+        tsserver = {},
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -636,6 +643,7 @@ return {
         go = { 'golangci-lint' },
         bash = { 'shellcheck' },
         sh = { 'shellcheck' },
+        html = { 'htmllint' },
       }
     end,
   },
@@ -649,40 +657,40 @@ return {
       }
     end,
   },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    opts = {},
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' },
-  },
-  {
-    'iamcco/markdown-preview.nvim',
-    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
-    build = 'cd app && yarn install',
-    init = function()
-      vim.g.mkdp_filetypes = { 'markdown' }
-    end,
-    ft = { 'markdown' },
-  },
-  {
-    'pwntester/octo.nvim',
-    cmd = 'Octo',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-tree/nvim-web-devicons',
-    },
-    config = function()
-      require('octo').setup {
-        enable_builtin = true,
-        use_local_fs = true,
-      }
-      vim.cmd [[hi OctoEditable guibg=none]]
-      vim.treesitter.language.register('markdown', 'octo')
-    end,
-    keys = {
-      { '<leader>O', '<cmd>Octo<cr>', desc = 'Octo' },
-      { '<leader>Op', '<cmd>Octo pr list<cr>', desc = 'Octo pr list' },
-    },
-  },
+  -- {
+  --   'MeanderingProgrammer/render-markdown.nvim',
+  --   opts = {},
+  --   dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' },
+  -- },
+  -- {
+  --   'iamcco/markdown-preview.nvim',
+  --   cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+  --   build = 'cd app && yarn install',
+  --   init = function()
+  --     vim.g.mkdp_filetypes = { 'markdown' }
+  --   end,
+  --   ft = { 'markdown' },
+  -- },
+  -- {
+  --   'pwntester/octo.nvim',
+  --   cmd = 'Octo',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --     'nvim-tree/nvim-web-devicons',
+  --   },
+  --   config = function()
+  --     require('octo').setup {
+  --       enable_builtin = true,
+  --       use_local_fs = true,
+  --     }
+  --     vim.cmd [[hi OctoEditable guibg=none]]
+  --     vim.treesitter.language.register('markdown', 'octo')
+  --   end,
+  --   keys = {
+  --     { '<leader>O', '<cmd>Octo<cr>', desc = 'Octo' },
+  --     { '<leader>Op', '<cmd>Octo pr list<cr>', desc = 'Octo pr list' },
+  --   },
+  -- },
   -- Highlight todo, notes, etc in comments
   --
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
