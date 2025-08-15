@@ -84,7 +84,6 @@ return {
 							"shellcheck",
 							"delve",
 							"bash-debug-adapter",
-							"stylua",
 							"typescript-language-server", -- ✅ for JavaScript and TypeScript
 						},
 					})
